@@ -1,0 +1,133 @@
+/* frontend/src/pages/WorkersPage.module.css */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  animation: fadeIn 0.4s ease-out;
+  color: #fff;
+}
+
+.header {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+/* --- LAYOUT GRID --- */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: 1fr 2fr; /* Form takes 1 part, List takes 2 parts */
+  }
+}
+
+/* --- CARD STYLING --- */
+.card {
+  background-color: var(--bg-card, #1e1e1e);
+  border: 1px solid #333;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  height: fit-content;
+}
+
+.cardHeader {
+  color: var(--text-secondary, #a1a1aa);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.05em;
+}
+
+/* --- FORM ELEMENTS --- */
+.formGroup {
+  margin-bottom: 1.25rem;
+}
+
+.label {
+  display: block;
+  font-size: 0.85rem;
+  color: #aaa;
+  margin-bottom: 0.5rem;
+}
+
+.input {
+  width: 100%;
+  background-color: #121212;
+  border: 1px solid #333;
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  outline: none;
+  transition: border 0.2s;
+  box-sizing: border-box;
+}
+
+.input:focus {
+  border-color: var(--accent-blue, #3b82f6);
+}
+
+.submitBtn {
+  width: 100%;
+  background: var(--accent-blue, #3b82f6);
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+
+.submitBtn:hover {
+  filter: brightness(1.1);
+}
+
+/* --- WORKER LIST TABLE --- */
+.tableContainer {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.table th {
+  text-align: left;
+  color: #888;
+  padding: 12px;
+  border-bottom: 1px solid #333;
+}
+
+.table td {
+  padding: 12px;
+  border-bottom: 1px solid #2a2a2a;
+  color: #eee;
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.wageBadge {
+  background-color: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-weight: 600;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

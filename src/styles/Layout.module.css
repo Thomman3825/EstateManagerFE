@@ -1,0 +1,133 @@
+/* frontend/src/components/Layout.module.css */
+
+.container {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--bg-dark, #121212);
+  color: white;
+  font-family: 'Inter', sans-serif;
+}
+
+/* --- SIDEBAR --- */
+.sidebar {
+  width: 260px;
+  background-color: var(--bg-card, #1e1e1e);
+  border-right: 1px solid #333;
+  display: flex;
+  flex-direction: column;
+  position: fixed; /* Keeps it stuck to the left */
+  top: 0;
+  left: 0;
+  height: 100vh;
+  z-index: 10;
+}
+
+.brand {
+  padding: 1.5rem;
+  border-bottom: 1px solid #333;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  display: flex; /* Centers specific content if needed */
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.brandName {
+  font-weight: 700;
+  font-size: 1rem;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.brandSub {
+  font-size: 0.75rem;
+  color: var(--text-secondary, #888);
+  margin: 0;
+}
+
+/* Navigation Links */
+.nav {
+  flex: 1;
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #a1a1aa;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border-left: 3px solid transparent;
+}
+
+.link:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: white;
+}
+
+.activeLink {
+  background-color: rgba(59, 130, 246, 0.1); /* Blue tint */
+  color: #60a5fa; /* Light Blue text */
+  border-left: 3px solid #3b82f6; /* Blue indicator line */
+}
+
+/* Footer area of sidebar */
+.footer {
+  padding: 1.5rem;
+  border-top: 1px solid #333;
+  font-size: 0.75rem;
+  color: #555;
+  text-align: center;
+}
+
+/* --- MAIN CONTENT AREA --- */
+.main {
+  flex: 1;
+  margin-left: 260px; /* Pushes content to right of sidebar */
+  padding: 2rem;
+  background-color: #121212;
+  overflow-y: auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.headerTitle {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.logoutBtn {
+  background: transparent;
+  border: 1px solid #444;
+  color: #aaa;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.logoutBtn:hover {
+  border-color: #666;
+  color: white;
+}

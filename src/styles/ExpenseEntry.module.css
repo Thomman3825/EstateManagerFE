@@ -1,0 +1,162 @@
+/* frontend/src/pages/ExpenseEntry.module.css */
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  color: var(--text-primary);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #fff;
+  letter-spacing: -0.5px;
+}
+
+/* The Main Card Container */
+.card {
+  background-color: var(--bg-card, #1e1e1e); /* Fallback to dark gray */
+  border: 1px solid #333;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+}
+
+/* Toggle Buttons (General vs Wage) */
+.toggleContainer {
+  display: flex;
+  background-color: #121212;
+  padding: 4px;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  border: 1px solid #333;
+}
+
+.toggleBtn {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary, #a1a1aa);
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.toggleBtn:hover {
+  color: #fff;
+}
+
+.activeToggle {
+  background-color: var(--accent-blue, #3b82f6);
+  color: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Form Layout */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.row {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.col {
+  flex: 1;
+}
+
+/* Inputs */
+.label {
+  display: block;
+  font-size: 0.875rem;
+  color: var(--text-secondary, #aaa);
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.input, .select {
+  width: 100%;
+  background-color: #2a2a2a; /* Slightly lighter than bg */
+  border: 1px solid #444;
+  color: white;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box; /* Crucial for width: 100% */
+}
+
+.input:focus, .select:focus {
+  border-color: var(--accent-blue, #3b82f6);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Submit Button */
+.submitBtn {
+  margin-top: 1rem;
+  background: linear-gradient(135deg, var(--accent-blue, #3b82f6), #2563eb);
+  color: white;
+  padding: 14px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.1s, filter 0.2s;
+}
+
+.submitBtn:hover {
+  filter: brightness(1.1);
+}
+
+.submitBtn:active {
+  transform: scale(0.98);
+}
+.weekGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.weekBtn {
+  background-color: #2a2a2a; /* Dark gray to match inputs */
+  border: 1px solid #333;
+  color: #a1a1aa; /* Muted text */
+  padding: 12px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.weekBtn:hover {
+  background-color: #333;
+  color: white;
+  border-color: #555;
+  transform: translateY(-1px);
+}
+
+.activeWeek {
+  background: linear-gradient(135deg, var(--accent-blue, #3b82f6), #2563eb);
+  color: white;
+  border-color: transparent;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); /* Blue glow */
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

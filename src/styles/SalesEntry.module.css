@@ -1,0 +1,88 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  color: #fff;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.header { font-size: 1.8rem; font-weight: 700; }
+
+.card {
+  background-color: var(--bg-card, #1e1e1e);
+  border: 1px solid #333;
+  border-radius: 16px;
+  padding: 2rem;
+}
+
+/* Item Entry Section */
+.entrySection {
+  background-color: #151515;
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.row { display: flex; gap: 1rem; margin-bottom: 1rem; }
+.col { flex: 1; display: flex; flex-direction: column; gap: 0.5rem; }
+
+.label { font-size: 0.85rem; color: #888; text-transform: uppercase; font-weight: 600; }
+.input, .select {
+  background-color: #252525;
+  border: 1px solid #444;
+  color: #fff;
+  padding: 10px;
+  border-radius: 6px;
+  width: 100%;
+}
+.input:focus { border-color: var(--accent-blue); outline: none; }
+
+/* Buttons */
+.addBtn {
+  background-color: #333;
+  color: var(--accent-blue);
+  border: 1px solid var(--accent-blue);
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+.addBtn:hover { background-color: var(--accent-blue); color: white; }
+
+.submitBtn {
+  width: 100%;
+  background-color: #10b981; /* Green */
+  color: white;
+  padding: 15px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+/* Bill Summary Table */
+.table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+.table th { text-align: left; color: #888; padding: 10px; border-bottom: 1px solid #333; }
+.table td { padding: 10px; border-bottom: 1px solid #333; color: #ddd; }
+.removeBtn { background: transparent; border: none; color: #ef4444; cursor: pointer; }
+
+.totalRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 2px dashed #444;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+.headerContainer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
