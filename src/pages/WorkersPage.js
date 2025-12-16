@@ -4,7 +4,7 @@ import { WorkerService, EstateService } from '../api/services';
 import styles from '../styles/WorkersPage.module.css';
 
 const WorkersPage = () => {
-    const  selectedEstate  = useEstate();
+    const  selectedEstate  = useEstate(); 
     
     // --- STATE ---
     const [allWorkers, setAllWorkers] = useState([]); // Stores ALL workers across all estates
