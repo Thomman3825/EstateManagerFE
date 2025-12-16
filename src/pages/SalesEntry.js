@@ -4,7 +4,7 @@ import { EstateService, SaleService } from '../api/services';
 import styles from '../styles/SalesEntry.module.css';
 
 const SalesEntry = () => {
-    const { selectedEstate } = useEstate();
+    const  selectedEstate  = useEstate();
     
     // Header State
     const [allEstates, setAllEstates] = useState([]);

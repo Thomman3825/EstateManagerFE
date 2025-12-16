@@ -1,0 +1,93 @@
+/* frontend/src/pages/Auth.module.css */
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #121212; /* Dark background */
+  color: #fff;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.card {
+  background-color: #1e1e1e; /* Card background */
+  padding: 2.5rem;
+  border-radius: 16px;
+  border: 1px solid #333;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+.title {
+  margin-bottom: 2rem;
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 8px;
+  background-color: #2a2a2a; /* Input background */
+  border: 1px solid #444;
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+  box-sizing: border-box; /* Ensures padding doesn't widen element */
+  transition: border-color 0.2s;
+}
+
+.input:focus {
+  border-color: #3b82f6; /* Accent blue focus */
+}
+
+.submitBtn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+  transition: transform 0.1s, filter 0.2s;
+}
+
+.submitBtn:hover {
+  filter: brightness(1.1);
+}
+
+.submitBtn:active {
+  transform: scale(0.98);
+}
+
+.toggleText {
+  margin-top: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  color: #888;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+
+.toggleText:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

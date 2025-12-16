@@ -1,61 +1,90 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useEstate } from '../context/EstateContext';
-import { WorkerService, EstateService } from '../api/services'; // Added EstateService
+import { WorkerService, EstateService } from '../api/services';
 import styles from '../styles/WorkersPage.module.css';
 
 const WorkersPage = () => {
-    const { selectedEstate } = useEstate();
+    const  selectedEstate  = useEstate();
     
-    // Data State
-    const [workers, setWorkers] = useState([]);
-    const [allEstates, setAllEstates] = useState([]); // List of available estates
+    // --- STATE ---
+    const [allWorkers, setAllWorkers] = useState([]); // Stores ALL workers across all estates
+    const [allEstates, setAllEstates] = useState([]); 
     const [loading, setLoading] = useState(false);
 
-    // Selection State (Default to global context, but selectable)
-    const [targetEstateId, setTargetEstateId] = useState(selectedEstate?._id || '');
+    // Inputs
+    const [addFormEstateId, setAddFormEstateId] = useState(''); // Specific estate for Adding
+    const [filterEstateId, setFilterEstateId] = useState('');   // Filter for List (Empty = All)
 
-    // Form Inputs
+    // Form Data
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
     const [dailyWage, setDailyWage] = useState('');
 
-    // 1. Fetch All Estates (On Load)
+    // 1. Initial Load: Fetch Estates, then Fetch ALL Workers
     useEffect(() => {
-        EstateService.getAll()
-            .then(res => setAllEstates(res.data))
-            .catch(err => console.error("Failed to load estates", err));
-    }, []);
+        const loadInitialData = async () => {
+            try {
+                // A. Get All Estates
+                const estateRes = await EstateService.getAll();
+                const estatesList = estateRes.data;
+                setAllEstates(estatesList);
 
-    // 2. Fetch Workers whenever the TARGET Estate changes
-    // This keeps the list on the right in sync with the form on the left
-    useEffect(() => {
-        if(targetEstateId) {
-            fetchWorkers(targetEstateId);
-        } else {
-            setWorkers([]);
-        }
-    }, [targetEstateId]);
+                // Set default for Add Form (if global context exists)
+                if (selectedEstate) {
+                    setAddFormEstateId(selectedEstate._id);
+                } else if (estatesList.length > 0) {
+                    setAddFormEstateId(estatesList[0]._id);
+                }
 
-    const fetchWorkers = async (estateId) => {
+                // B. Get Workers for ALL Estates immediately
+                if (estatesList.length > 0) {
+                    fetchAllWorkers(estatesList);
+                }
+            } catch (err) {
+                console.error("Failed to load initial data", err);
+            }
+        };
+
+        loadInitialData();
+    }, []); // Run once on mount
+
+    // Helper: Fetch workers for provided estates and merge them
+    const fetchAllWorkers = async (estates) => {
         try {
-            const res = await WorkerService.getByEstate(estateId);
-            setWorkers(res.data);
-        } catch (err) {
-            console.error(err);
+            // Create a promise for each estate to fetch its workers
+            const promises = estates.map(est => WorkerService.getByEstate(est._id));
+            const results = await Promise.all(promises);
+            
+            // Flatten the array of arrays into one single list
+            const combinedWorkers = results.map(res => res.data).flat();
+            setAllWorkers(combinedWorkers);
+        } catch (error) {
+            console.error("Error fetching all workers", error);
         }
     };
 
+    // 2. Computed: Filtered Workers for Display
+    const displayedWorkers = useMemo(() => {
+        if (!filterEstateId) return allWorkers; // Show All
+        return allWorkers.filter(w => {
+            // Handle case where w.estate is an object or a string ID
+            const workerEstateId = typeof w.estate === 'object' ? w.estate._id : w.estate;
+            return workerEstateId === filterEstateId;
+        });
+    }, [allWorkers, filterEstateId]);
+
+    // 3. Handle Add Worker
     const handleAddWorker = async (e) => {
         e.preventDefault();
         
-        if (!targetEstateId) return alert("Please select an estate first");
+        if (!addFormEstateId) return alert("Please select an estate to add the worker to.");
         if (!name || !dailyWage) return alert("Name and Wage are required");
 
         setLoading(true);
 
         try {
             await WorkerService.create({
-                estate: targetEstateId, // <--- Uses the dropdown value
+                estate: addFormEstateId,
                 name,
                 phone,
                 dailyWage: Number(dailyWage)
@@ -66,8 +95,9 @@ const WorkersPage = () => {
             setPhone('');
             setDailyWage('');
             
-            // Refresh list
-            fetchWorkers(targetEstateId);
+            // Refresh ALL workers to ensure list is up to date
+            await fetchAllWorkers(allEstates);
+            
             alert("Worker Added Successfully");
         } catch (error) {
             alert("Error adding worker");
@@ -75,6 +105,17 @@ const WorkersPage = () => {
         } finally {
             setLoading(false);
         }
+    };
+
+    // Helper to get Estate Name from ID (for the table display)
+    const getEstateName = (worker) => {
+        // If backend populated the estate field
+        if (worker.estate && worker.estate.name) return worker.estate.name;
+        
+        // If backend only sent ID, look it up in allEstates
+        const estateId = typeof worker.estate === 'object' ? worker.estate._id : worker.estate;
+        const found = allEstates.find(e => e._id === estateId);
+        return found ? found.name : 'Unknown';
     };
 
     return (
@@ -87,13 +128,13 @@ const WorkersPage = () => {
                 <div className={styles.card}>
                     <h3 className={styles.cardHeader}>Add New Worker</h3>
                     
-                    {/* NEW: Estate Selector */}
+                    {/* Estate Selector for ADDING */}
                     <div className={styles.formGroup}>
-                        <label className={styles.label}>Select Estate</label>
+                        <label className={styles.label}>Assign to Estate</label>
                         <select 
-                            className={styles.input} // Reusing input style for consistency
-                            value={targetEstateId}
-                            onChange={(e) => setTargetEstateId(e.target.value)}
+                            className={styles.input}
+                            value={addFormEstateId}
+                            onChange={(e) => setAddFormEstateId(e.target.value)}
                         >
                             <option value="">-- Choose Estate --</option>
                             {allEstates.map(est => (
@@ -144,17 +185,37 @@ const WorkersPage = () => {
 
                 {/* --- RIGHT: WORKER LIST --- */}
                 <div className={styles.card}>
-                    <h3 className={styles.cardHeader}>
-                        Worker Directory 
-                        {/* Dynamic Count Label */}
-                        <span style={{color: '#666', fontSize: '0.8em', marginLeft:'10px'}}>
-                            {workers.length > 0 ? `(${workers.length} found)` : '(Select estate)'}
-                        </span>
-                    </h3>
+                    <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'1rem'}}>
+                        <h3 className={styles.cardHeader} style={{marginBottom:0}}>
+                            Directory 
+                            <span style={{color: '#666', fontSize: '0.8em', marginLeft:'10px'}}>
+                                ({displayedWorkers.length})
+                            </span>
+                        </h3>
 
-                    {workers.length === 0 ? (
+                        {/* FILTER DROPDOWN */}
+                        <select 
+                            style={{
+                                padding: '6px 12px',
+                                borderRadius: '6px',
+                                background: '#121212',
+                                color: '#fff',
+                                border: '1px solid #333',
+                                fontSize: '0.85rem'
+                            }}
+                            value={filterEstateId}
+                            onChange={(e) => setFilterEstateId(e.target.value)}
+                        >
+                            <option value="">Show All Locations</option>
+                            {allEstates.map(est => (
+                                <option key={est._id} value={est._id}>{est.name}</option>
+                            ))}
+                        </select>
+                    </div>
+
+                    {displayedWorkers.length === 0 ? (
                         <div style={{textAlign:'center', padding:'2rem', color:'#666', fontStyle:'italic'}}>
-                            {targetEstateId ? "No workers added to this estate yet." : "Please select an estate to view workers."}
+                            No workers found.
                         </div>
                     ) : (
                         <div className={styles.tableContainer}>
@@ -162,20 +223,37 @@ const WorkersPage = () => {
                                 <thead>
                                     <tr>
                                         <th>Name</th>
+                                        <th>Location</th> {/* Added Location Header */}
+                                        <th>Wage</th>
+                                        <th>Loan</th>
                                         <th>Phone</th>
-                                        <th>Base Wage</th>
-                                        <th>Current Loan</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {workers.map(worker => (
+                                    {displayedWorkers.map(worker => (
                                         <tr key={worker._id}>
                                             <td style={{fontWeight:500}}>{worker.name}</td>
-                                            <td style={{color:'#888'}}>{worker.phone || '-'}</td>
+                                            
+                                            {/* Estate Column */}
+                                            <td>
+                                                <span style={{
+                                                    fontSize:'0.75rem', 
+                                                    background:'rgba(59, 130, 246, 0.15)', 
+                                                    color:'#60a5fa', 
+                                                    padding:'2px 6px', 
+                                                    borderRadius:'4px'
+                                                }}>
+                                                    {getEstateName(worker)}
+                                                </span>
+                                            </td>
+
                                             <td><span className={styles.wageBadge}>₹{worker.dailyWage}</span></td>
+                                            
                                             <td style={{color: worker.currentBalance > 0 ? '#ef4444' : '#888'}}>
                                                 {worker.currentBalance > 0 ? `₹${worker.currentBalance}` : '-'}
                                             </td>
+                                            
+                                            <td style={{color:'#888', fontSize:'0.9em'}}>{worker.phone || '-'}</td>
                                         </tr>
                                     ))}
                                 </tbody>

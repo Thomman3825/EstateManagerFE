@@ -2,9 +2,11 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import styles from '../styles/Layout.module.css'; // Import the new CSS
+import { useAuth } from '../context/AuthContext';
 
 const Layout = ({ children }) => {
   const location = useLocation();
+  const {user, logout} = useAuth();
 
   return (
     <div className={styles.container}>
@@ -14,10 +16,10 @@ const Layout = ({ children }) => {
         
         {/* Profile / Brand Section */}
         <div className={styles.brand}>
-          <div className={styles.avatar}>E</div>
+          <div className={styles.avatar}>{user?.name?.charAt(0) || 'U'}</div>
           <div>
             <h2 className={styles.brandName}>Estate Admin</h2>
-            <p className={styles.brandSub}>Pro Version</p>
+            <p className={styles.brandSub}>Welcome, {user?.name || 'User'}</p>
           </div>
         </div>
 
@@ -45,10 +47,10 @@ const Layout = ({ children }) => {
                   </Link>
 
                   <Link
-                      to="/"
+                      to="/estates"
                       className={styles.link}
                   >
-                      <span>⚙️</span> Switch Estate
+                      <span>⚙️</span> Manage Estates
                   </Link>
 
                   <Link
@@ -75,8 +77,10 @@ const Layout = ({ children }) => {
       <main className={styles.main}>
         {/* Top Header */}
         <header className={styles.header}>
-           <h1 className={styles.headerTitle}>Overview</h1>
-           <button className={styles.logoutBtn} onClick={() => window.location.href='/'}>
+           <h1 className={styles.headerTitle}>
+               {location.pathname.replace('/','').charAt(0).toUpperCase() + location.pathname.slice(2) || 'Dashboard'}
+           </h1>
+           <button className={styles.logoutBtn} onClick={logout}>
               Log Out
            </button>
         </header>

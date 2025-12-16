@@ -5,7 +5,7 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGri
 import styles from '../styles/Tracker.module.css';
 
 const Tracker = () => {
-    const { selectedEstate } = useEstate();
+    const  selectedEstate  = useEstate();
     
     // --- STATE: DATA ---
     const [allEstates, setAllEstates] = useState([]);

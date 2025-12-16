@@ -5,9 +5,10 @@ import {
     LineChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis, CartesianGrid, Legend 
 } from 'recharts';
 import styles from '../styles/Dashboard.module.css';
+import { useAuth } from '../context/AuthContext';
 
 const Dashboard = () => {
-    const { selectedEstate, switchEstate } = useEstate();
+    const selectedEstate  = useEstate();
     
     // --- STATE ---
     const [loading, setLoading] = useState(false);
@@ -27,11 +28,24 @@ const Dashboard = () => {
     const [chartData, setChartData] = useState([]);
     const [recentTx, setRecentTx] = useState([]);
 
+    const {user} = useAuth(); 
+
     // 1. Initial Load
+    // useEffect(() => {
+    //     EstateService.getAll().then(res => setAllEstates(res.data));
+    //     console.log("Selected estaes",selectedEstate)
+    //     if (selectedEstate) setSelectedEstateIds([selectedEstate._id]);
+    // }, [selectedEstate]);
     useEffect(() => {
-        EstateService.getAll().then(res => setAllEstates(res.data));
-        if (selectedEstate) setSelectedEstateIds([selectedEstate._id]);
-    }, [selectedEstate]);
+        // Fetch all estates for this user
+        EstateService.getAll().then(res => {
+            setAllEstates(res.data);
+            // Default behavior: Select ALL estates if none selected locally
+            if (res.data.length > 0) {
+                setSelectedEstateIds(res.data.map(e => e._id));
+            }
+        });
+    }, []);
 
     // 2. Main Data Fetcher
     useEffect(() => {

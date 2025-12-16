@@ -1,7 +1,7 @@
 import api from './axiosConfig';
 
 export const EstateService = {
-    getAll: () => api.get('/estates/getAll'),
+    getAll: () => api.get('/estates/myEstates'),
     create: (data) => api.post('/estates/create', data),
 };
 
@@ -32,4 +32,9 @@ export const ExpenseService = {
 export const SaleService = {
     create: (data) => api.post('/sales', data),
     getReport: (params) => api.get('/sales/report', { params }),
+};
+
+export const AuthService = {
+    register: (data) => api.post('/auth/register', data),
+    login: (data) => api.post('/auth/login', data),
 };

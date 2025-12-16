@@ -4,7 +4,7 @@ import { WorkerService, ExpenseService, EstateService } from '../api/services';
 import styles from '../styles/ExpenseEntry.module.css';
 
 const ExpenseEntry = () => {
-    const { selectedEstate } = useEstate();
+    const  selectedEstate  = useEstate();
     
     // --- STATE ---
     const [allEstates, setAllEstates] = useState([]);
