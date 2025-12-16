@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL, // Matches your Backend Port
+    baseURL: `${process.env.REACT_APP_BASE_URL}/api`, // Matches your Backend Port
     headers: {
         'Content-Type': 'application/json',
     },

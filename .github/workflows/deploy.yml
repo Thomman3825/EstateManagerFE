@@ -1,0 +1,4 @@
+- name: Build
+  run: npm run build
+  env:
+    REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
