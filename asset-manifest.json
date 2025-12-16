@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/EstateManagerFE/static/css/main.f982a111.css",
+    "main.js": "/EstateManagerFE/static/js/main.95e7c296.js",
+    "static/js/453.408cc653.chunk.js": "/EstateManagerFE/static/js/453.408cc653.chunk.js",
+    "index.html": "/EstateManagerFE/index.html",
+    "main.f982a111.css.map": "/EstateManagerFE/static/css/main.f982a111.css.map",
+    "main.95e7c296.js.map": "/EstateManagerFE/static/js/main.95e7c296.js.map",
+    "453.408cc653.chunk.js.map": "/EstateManagerFE/static/js/453.408cc653.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f982a111.css",
+    "static/js/main.95e7c296.js"
+  ]
+}
