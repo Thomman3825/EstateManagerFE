@@ -5,6 +5,9 @@
   margin: 0 auto;
   color: var(--text-primary);
   animation: fadeIn 0.3s ease-in-out;
+  /* Add padding so it doesn't touch screen edges on mobile */
+  padding: 1rem;
+  box-sizing: border-box;
 }
 
 .title {
@@ -17,11 +20,13 @@
 
 /* The Main Card Container */
 .card {
-  background-color: var(--bg-card, #1e1e1e); /* Fallback to dark gray */
+  background-color: var(--bg-card, #1e1e1e);
   border: 1px solid #333;
   border-radius: 16px;
   padding: 2rem;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Toggle Buttons (General vs Wage) */
@@ -44,6 +49,9 @@
   cursor: pointer;
   border-radius: 8px;
   transition: all 0.2s ease;
+  /* Ensure text doesn't wrap awkwardly on tiny screens */
+  white-space: nowrap; 
+  font-size: 0.9rem;
 }
 
 .toggleBtn:hover {
@@ -66,10 +74,13 @@
 .row {
   display: flex;
   gap: 1.5rem;
+  width: 100%;
 }
 
 .col {
   flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Inputs */
@@ -83,7 +94,7 @@
 
 .input, .select {
   width: 100%;
-  background-color: #2a2a2a; /* Slightly lighter than bg */
+  background-color: #2a2a2a;
   border: 1px solid #444;
   color: white;
   padding: 12px 16px;
@@ -91,7 +102,9 @@
   font-size: 0.95rem;
   outline: none;
   transition: border-color 0.2s, box-shadow 0.2s;
-  box-sizing: border-box; /* Crucial for width: 100% */
+  box-sizing: border-box; 
+  /* Prevent iOS zoom on focus */
+  appearance: none; 
 }
 
 .input:focus, .select:focus {
@@ -111,6 +124,7 @@
   border-radius: 8px;
   cursor: pointer;
   transition: transform 0.1s, filter 0.2s;
+  width: 100%;
 }
 
 .submitBtn:hover {
@@ -120,6 +134,8 @@
 .submitBtn:active {
   transform: scale(0.98);
 }
+
+/* Week Selection Grid */
 .weekGrid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -128,10 +144,10 @@
 }
 
 .weekBtn {
-  background-color: #2a2a2a; /* Dark gray to match inputs */
+  background-color: #2a2a2a;
   border: 1px solid #333;
-  color: #a1a1aa; /* Muted text */
-  padding: 12px 8px;
+  color: #a1a1aa;
+  padding: 12px 4px; /* Reduced side padding for small screens */
   border-radius: 8px;
   cursor: pointer;
   font-size: 0.85rem;
@@ -139,6 +155,10 @@
   transition: all 0.2s ease;
   position: relative;
   overflow: hidden;
+  text-align: center;
+  /* Prevent text overflow */
+  white-space: nowrap;
+  text-overflow: ellipsis; 
 }
 
 .weekBtn:hover {
@@ -153,10 +173,47 @@
   color: white;
   border-color: transparent;
   font-weight: 600;
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); /* Blue glow */
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
 }
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- MOBILE OPTIMIZATIONS --- */
+
+@media (max-width: 768px) {
+  .row {
+    flex-direction: column; /* Stack inputs vertically */
+    gap: 1.25rem;
+  }
+  
+  .card {
+    padding: 1.5rem; /* Reduce padding to save space */
+  }
+
+  .title {
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0.75rem; /* Even less padding for very small screens */
+  }
+
+  .card {
+    padding: 1.25rem;
+  }
+
+  /* Break the 5-column grid into 3 columns (2 rows) */
+  .weekGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .toggleBtn {
+    font-size: 0.85rem;
+    padding: 8px;
+  }
 }

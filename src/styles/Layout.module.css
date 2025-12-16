@@ -1,66 +1,82 @@
-/* frontend/src/components/Layout.module.css */
+/* frontend/src/styles/Layout.module.css */
 
 .container {
   display: flex;
-  min-height: 100vh;
-  background-color: var(--bg-dark, #121212);
-  color: white;
-  font-family: 'Inter', sans-serif;
+  height: 100vh;
+  height: 100dvh; /* Mobile browser fix */
+  background-color: #121212;
+  overflow: hidden; /* Only the main content area scrolls */
+  color: #fff;
 }
 
 /* --- SIDEBAR --- */
 .sidebar {
   width: 260px;
-  background-color: var(--bg-card, #1e1e1e);
+  background-color: #1e1e1e;
   border-right: 1px solid #333;
   display: flex;
   flex-direction: column;
-  position: fixed; /* Keeps it stuck to the left */
-  top: 0;
-  left: 0;
-  height: 100vh;
-  z-index: 10;
+  flex-shrink: 0;
+  transition: transform 0.3s ease-in-out;
+  z-index: 50;
 }
 
-.brand {
+.sidebarHeader {
   padding: 1.5rem;
   border-bottom: 1px solid #333;
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 12px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .avatar {
   width: 40px;
   height: 40px;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
   border-radius: 50%;
-  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-  display: flex; /* Centers specific content if needed */
-  align-items: center;
+  display: flex;
   justify-content: center;
-  font-weight: bold;
+  align-items: center;
+  font-weight: 700;
+  color: white;
+  font-size: 1.2rem;
 }
 
 .brandName {
+  font-size: 1.1rem;
   font-weight: 700;
-  font-size: 1rem;
   margin: 0;
-  line-height: 1.2;
+  color: #fff;
 }
 
 .brandSub {
-  font-size: 0.75rem;
-  color: var(--text-secondary, #888);
+  font-size: 0.8rem;
+  color: #888;
   margin: 0;
 }
 
-/* Navigation Links */
+.closeBtn {
+  display: none; /* Hidden on Desktop */
+  background: transparent;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* Navigation */
 .nav {
-  flex: 1;
-  padding: 1.5rem 1rem;
   display: flex;
   flex-direction: column;
+  padding: 1.5rem;
   gap: 0.5rem;
+  flex: 1; /* Pushes footer down */
+  overflow-y: auto;
 }
 
 .link {
@@ -68,66 +84,152 @@
   align-items: center;
   gap: 12px;
   padding: 12px 16px;
-  border-radius: 8px;
-  text-decoration: none;
   color: #a1a1aa;
+  text-decoration: none;
+  border-radius: 8px;
   font-weight: 500;
-  transition: all 0.2s ease;
-  border-left: 3px solid transparent;
+  transition: all 0.2s;
 }
 
 .link:hover {
   background-color: rgba(255, 255, 255, 0.05);
-  color: white;
+  color: #fff;
 }
 
 .activeLink {
-  background-color: rgba(59, 130, 246, 0.1); /* Blue tint */
-  color: #60a5fa; /* Light Blue text */
-  border-left: 3px solid #3b82f6; /* Blue indicator line */
+  background-color: #3b82f6; /* Accent Blue */
+  color: #fff;
 }
 
-/* Footer area of sidebar */
+.activeLink:hover {
+  background-color: #2563eb;
+}
+
 .footer {
   padding: 1.5rem;
-  border-top: 1px solid #333;
-  font-size: 0.75rem;
-  color: #555;
   text-align: center;
+  color: #555;
+  font-size: 0.75rem;
+  border-top: 1px solid #333;
 }
 
-/* --- MAIN CONTENT AREA --- */
+/* --- MAIN CONTENT --- */
 .main {
   flex: 1;
-  margin-left: 260px; /* Pushes content to right of sidebar */
-  padding: 2rem;
+  display: flex;
+  flex-direction: column;
   background-color: #121212;
-  overflow-y: auto;
+  position: relative;
+  width: 100%; /* Ensures children don't overflow horizontally */
 }
 
+/* Header */
 .header {
+  height: 70px;
+  padding: 0 2rem;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+  justify-content: space-between;
+  border-bottom: 1px solid #333;
+  background-color: #121212;
+  flex-shrink: 0;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.menuBtn {
+  display: none; /* Hidden on Desktop */
+  background: transparent;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
 }
 
 .headerTitle {
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   font-weight: 700;
+  margin: 0;
+  color: #fff;
 }
 
 .logoutBtn {
-  background: transparent;
-  border: 1px solid #444;
-  color: #aaa;
   padding: 8px 16px;
-  border-radius: 20px;
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 6px;
   cursor: pointer;
-  transition: 0.2s;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.2s;
 }
 
 .logoutBtn:hover {
-  border-color: #666;
-  color: white;
+  background-color: rgba(239, 68, 68, 0.2);
+}
+
+.contentWrapper {
+  flex: 1;
+  overflow-y: auto;
+  /* Smooth scroll for iOS */
+  -webkit-overflow-scrolling: touch; 
+}
+
+/* --- OVERLAY (Mobile) --- */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 40;
+  opacity: 0;
+  pointer-events: none; /* Click-through when invisible */
+  transition: opacity 0.3s ease;
+}
+
+.overlayVisible {
+  opacity: 1;
+  pointer-events: auto; /* Catch clicks when visible */
+}
+
+/* --- MOBILE BREAKPOINT --- */
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    transform: translateX(-100%); /* Hide off-screen */
+    box-shadow: 4px 0 15px rgba(0,0,0,0.5);
+    width: 280px;
+  }
+
+  .sidebarOpen {
+    transform: translateX(0); /* Slide in */
+  }
+
+  .closeBtn {
+    display: block; /* Show X button inside sidebar */
+  }
+
+  .menuBtn {
+    display: block; /* Show Hamburger in header */
+  }
+
+  .header {
+    padding: 0 1rem; /* Less padding on mobile */
+  }
+
+  .headerTitle {
+    font-size: 1.2rem;
+  }
 }

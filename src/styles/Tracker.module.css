@@ -7,6 +7,10 @@
   animation: fadeIn 0.4s ease-out;
   color: #fff;
   padding-bottom: 4rem;
+  /* Add padding for mobile */
+  padding-left: 1rem;
+  padding-right: 1rem;
+  box-sizing: border-box;
 }
 
 .header {
@@ -101,7 +105,9 @@
   transition: background 0.2s;
 }
 
-.dropdownItem:hover { background-color: #333; }
+.dropdownItem:hover {
+  background-color: #333;
+}
 
 /* Filter Tabs */
 .filterTabs {
@@ -110,6 +116,8 @@
   padding: 4px;
   border-radius: 8px;
   border: 1px solid #333;
+  /* Ensure tabs don't overflow on small screens */
+  overflow-x: auto;
 }
 
 .tab {
@@ -123,6 +131,7 @@
   border-radius: 6px;
   font-weight: 500;
   transition: all 0.2s;
+  white-space: nowrap;
 }
 
 .activeTab {
@@ -140,7 +149,7 @@
   padding: 1rem;
   border-radius: 12px;
   border: 1px solid #2a2a2a;
-  flex-wrap: wrap;
+  flex-wrap: wrap; /* Allows wrapping */
 }
 
 .controlGroup {
@@ -148,7 +157,7 @@
   flex-direction: column;
   gap: 0.5rem;
   flex: 1;
-  min-width: 120px;
+  min-width: 140px; /* Ensure inputs aren't too small */
 }
 
 .select, .dateInput {
@@ -159,9 +168,12 @@
   border-radius: 6px;
   width: 100%;
   outline: none;
+  box-sizing: border-box;
 }
 
-.select:focus, .dateInput:focus { border-color: var(--accent-blue, #3b82f6); }
+.select:focus, .dateInput:focus {
+  border-color: var(--accent-blue, #3b82f6);
+}
 
 /* Analyze Button */
 .analyzeBtn {
@@ -175,10 +187,17 @@
   cursor: pointer;
   transition: transform 0.1s;
   min-width: 150px;
+  /* On mobile, let it grow to full width if needed */
+  flex-grow: 1; 
 }
 
-.analyzeBtn:hover { filter: brightness(1.1); }
-.analyzeBtn:active { transform: scale(0.98); }
+.analyzeBtn:hover {
+  filter: brightness(1.1);
+}
+
+.analyzeBtn:active {
+  transform: scale(0.98);
+}
 
 /* --- RESULTS SECTION --- */
 
@@ -232,7 +251,7 @@
   border: 1px solid #333;
   border-radius: 16px;
   padding: 1.5rem;
-  height: 500px;
+  height: 500px; /* Fixed height on desktop */
   display: flex;
   flex-direction: column;
 }
@@ -313,9 +332,53 @@
   border-radius: 16px;
   padding: 1.5rem;
   height: 500px;
+  position: relative;
+  min-width: 0; /* Prevents overflow in Grid */
 }
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- MOBILE SPECIFIC OVERRIDES --- */
+@media (max-width: 768px) {
+  .controlsRow {
+    flex-direction: column;
+    align-items: stretch; /* Stretch inputs to full width */
+  }
+
+  .controlGroup {
+    width: 100%;
+  }
+
+  .analyzeBtn {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+  
+  .timelineSection, .chartSection {
+    height: auto; /* Let content dictate height on mobile */
+    min-height: 400px; /* Minimum height for visibility */
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    font-size: 1.5rem;
+  }
+  
+  .filterCard, .totalCard, .timelineSection, .chartSection {
+    padding: 1rem;
+  }
+
+  /* Reduce massive font size on small screens */
+  .totalValue {
+    font-size: 2.5rem;
+  }
+  
+  .tab {
+    padding: 8px 10px;
+    font-size: 0.75rem;
+  }
 }

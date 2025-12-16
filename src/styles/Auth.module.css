@@ -4,20 +4,27 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background-color: #121212; /* Dark background */
+  min-height: 100vh;
+  /* Fallback for older browsers */
+  min-height: 100dvh;
+  /* Dynamic viewport height for mobile browsers */
+  background-color: #121212;
   color: #fff;
+  padding: 1rem;
+  /* Prevents card from touching screen edges on mobile */
+  box-sizing: border-box;
   animation: fadeIn 0.5s ease-out;
 }
 
 .card {
-  background-color: #1e1e1e; /* Card background */
+  background-color: #1e1e1e;
   padding: 2.5rem;
   border-radius: 16px;
   border: 1px solid #333;
   width: 100%;
   max-width: 400px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
 }
 
 .title {
@@ -38,17 +45,18 @@
   width: 100%;
   padding: 14px;
   border-radius: 8px;
-  background-color: #2a2a2a; /* Input background */
+  background-color: #2a2a2a;
   border: 1px solid #444;
   color: #fff;
   font-size: 1rem;
+  /* 16px prevents iOS zoom-in on focus */
   outline: none;
-  box-sizing: border-box; /* Ensures padding doesn't widen element */
+  box-sizing: border-box;
   transition: border-color 0.2s;
 }
 
 .input:focus {
-  border-color: #3b82f6; /* Accent blue focus */
+  border-color: #3b82f6;
 }
 
 .submitBtn {
@@ -88,6 +96,27 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile Optimizations */
+@media (max-width: 480px) {
+  .card {
+    padding: 1.5rem;
+    /* Reduce padding on small screens */
+  }
+  .title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .toggleText {
+    margin-top: 1.25rem;
+  }
 }

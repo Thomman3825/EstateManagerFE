@@ -1,3 +1,5 @@
+/* frontend/src/styles/SaleEntry.css */
+
 .container {
   display: flex;
   flex-direction: column;
@@ -5,15 +7,35 @@
   color: #fff;
   max-width: 900px;
   margin: 0 auto;
+  /* Add side padding for mobile */
+  padding: 1rem; 
+  box-sizing: border-box;
+  width: 100%;
 }
 
-.header { font-size: 1.8rem; font-weight: 700; }
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.header { 
+  font-size: 1.8rem; 
+  font-weight: 700; 
+  margin: 0;
+}
 
 .card {
   background-color: var(--bg-card, #1e1e1e);
   border: 1px solid #333;
   border-radius: 16px;
   padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  /* Ensure card respects screen width */
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Item Entry Section */
@@ -25,51 +47,114 @@
   margin-bottom: 2rem;
 }
 
-.row { display: flex; gap: 1rem; margin-bottom: 1rem; }
-.col { flex: 1; display: flex; flex-direction: column; gap: 0.5rem; }
+.row { 
+  display: flex; 
+  gap: 1rem; 
+  margin-bottom: 1rem; 
+  width: 100%;
+}
 
-.label { font-size: 0.85rem; color: #888; text-transform: uppercase; font-weight: 600; }
+.col { 
+  flex: 1; 
+  display: flex; 
+  flex-direction: column; 
+  gap: 0.5rem; 
+  min-width: 0; /* Prevents flex items from overflowing */
+}
+
+.label { 
+  font-size: 0.85rem; 
+  color: #888; 
+  text-transform: uppercase; 
+  font-weight: 600; 
+}
+
 .input, .select {
   background-color: #252525;
   border: 1px solid #444;
   color: #fff;
-  padding: 10px;
+  padding: 12px; /* Slightly larger for touch */
   border-radius: 6px;
   width: 100%;
+  box-sizing: border-box; /* Ensures padding doesn't expand width */
+  font-size: 1rem; /* Prevents zoom on iOS */
+  outline: none;
 }
-.input:focus { border-color: var(--accent-blue); outline: none; }
+
+.input:focus, .select:focus { 
+  border-color: var(--accent-blue, #3b82f6); 
+  outline: none; 
+}
 
 /* Buttons */
 .addBtn {
   background-color: #333;
-  color: var(--accent-blue);
-  border: 1px solid var(--accent-blue);
-  padding: 10px 20px;
+  color: var(--accent-blue, #3b82f6);
+  border: 1px solid var(--accent-blue, #3b82f6);
+  padding: 12px 20px;
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
   transition: 0.2s;
+  width: 100%; /* Full width on mobile by default, override in media query if needed */
 }
-.addBtn:hover { background-color: var(--accent-blue); color: white; }
+
+.addBtn:hover { 
+  background-color: var(--accent-blue, #3b82f6); 
+  color: white; 
+}
 
 .submitBtn {
   width: 100%;
   background-color: #10b981; /* Green */
   color: white;
-  padding: 15px;
+  padding: 16px;
   border: none;
   border-radius: 8px;
   font-size: 1.1rem;
   font-weight: 700;
   cursor: pointer;
   margin-top: 1rem;
+  transition: filter 0.2s;
+}
+
+.submitBtn:hover {
+  filter: brightness(1.1);
 }
 
 /* Bill Summary Table */
-.table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-.table th { text-align: left; color: #888; padding: 10px; border-bottom: 1px solid #333; }
-.table td { padding: 10px; border-bottom: 1px solid #333; color: #ddd; }
-.removeBtn { background: transparent; border: none; color: #ef4444; cursor: pointer; }
+.table { 
+  width: 100%; 
+  border-collapse: collapse; 
+  margin-top: 1rem; 
+  /* Make table scrollable on small screens */
+  display: block; 
+  overflow-x: auto; 
+  white-space: nowrap; 
+}
+
+.table th { 
+  text-align: left; 
+  color: #888; 
+  padding: 12px; 
+  border-bottom: 1px solid #333; 
+}
+
+.table td { 
+  padding: 12px; 
+  border-bottom: 1px solid #333; 
+  color: #ddd; 
+}
+
+.removeBtn { 
+  background: transparent; 
+  border: none; 
+  color: #ef4444; 
+  cursor: pointer; 
+  font-weight: bold;
+  font-size: 1.2rem;
+  padding: 0 10px;
+}
 
 .totalRow {
   display: flex;
@@ -81,8 +166,43 @@
   font-size: 1.5rem;
   font-weight: 700;
 }
-.headerContainer{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+
+/* --- MOBILE RESPONSIVENESS --- */
+@media (min-width: 768px) {
+  /* On Desktop, revert the button to auto width */
+  .addBtn {
+    width: auto;
+  }
+  
+  /* On Desktop, table behaves like a normal table */
+  .table {
+    display: table;
+    white-space: normal;
+  }
+}
+
+@media (max-width: 768px) {
+  .row {
+    flex-direction: column; /* Stack inputs vertically */
+    gap: 1.25rem;
+  }
+
+  .card {
+    padding: 1.5rem;
+  }
+
+  .entrySection {
+    padding: 1rem;
+  }
+  
+  .header {
+    font-size: 1.5rem;
+  }
+  
+  .totalRow {
+    font-size: 1.25rem;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-end;
+  }
 }

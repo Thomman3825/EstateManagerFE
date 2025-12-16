@@ -6,6 +6,8 @@
   gap: 1.5rem;
   animation: fadeIn 0.4s ease-out;
   color: #fff;
+  padding: 1rem;
+  box-sizing: border-box;
 }
 
 .header {
@@ -23,7 +25,7 @@
 
 @media (min-width: 1024px) {
   .grid {
-    grid-template-columns: 1fr 2fr; /* Form takes 1 part, List takes 2 parts */
+    grid-template-columns: 1fr 2fr; /* Form left, List right */
   }
 }
 
@@ -35,6 +37,8 @@
   padding: 1.5rem;
   box-shadow: 0 4px 6px rgba(0,0,0,0.3);
   height: fit-content;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .cardHeader {
@@ -68,6 +72,7 @@
   outline: none;
   transition: border 0.2s;
   box-sizing: border-box;
+  font-size: 1rem;
 }
 
 .input:focus {
@@ -84,15 +89,17 @@
   font-weight: 600;
   cursor: pointer;
   margin-top: 0.5rem;
+  transition: filter 0.2s;
 }
 
 .submitBtn:hover {
   filter: brightness(1.1);
 }
 
-/* --- WORKER LIST TABLE --- */
+/* --- TABLE STYLING --- */
 .tableContainer {
-  overflow-x: auto;
+  width: 100%;
+  /* No overflow/scroll here anymore */
 }
 
 .table {
@@ -112,10 +119,7 @@
   padding: 12px;
   border-bottom: 1px solid #2a2a2a;
   color: #eee;
-}
-
-.table tr:last-child td {
-  border-bottom: none;
+  vertical-align: middle;
 }
 
 .wageBadge {
@@ -125,9 +129,74 @@
   border-radius: 4px;
   font-family: monospace;
   font-weight: 600;
+  display: inline-block;
 }
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- MOBILE "CARD VIEW" TRANSFORMATION --- */
+/* This removes the table structure on mobile and makes them look like cards */
+@media (max-width: 768px) {
+  /* Hide the table header row completely */
+  .table thead {
+    display: none;
+  }
+
+  /* Make rows act like separate cards */
+  .table, .table tbody, .table tr, .table td {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .table tr {
+    margin-bottom: 1rem;
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+
+  .table td {
+    text-align: right; /* Value on right */
+    padding: 8px 0;
+    border-bottom: 1px solid #2a2a2a;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .table td:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  
+  /* Adds labels using CSS so you don't need to change HTML immediately. 
+     Adjust the content string matches your columns: Name, Role, Wage, etc. */
+  .table td:nth-of-type(1)::before { content: "Name"; font-weight: bold; color: #888; }
+  .table td:nth-of-type(2)::before { content: "Wage"; font-weight: bold; color: #888; }
+  .table td:nth-of-type(3)::before { content: "Phone"; font-weight: bold; color: #888; }
+  .table td:nth-of-type(4)::before { content: "Actions"; font-weight: bold; color: #888; }
+
+  .wageBadge {
+    /* Adjust badge alignment in card view */
+    margin: 0;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 480px) {
+  .container {
+    padding: 0.75rem; 
+  }
+  .card {
+    padding: 1rem;
+  }
+  .header {
+    text-align: center;
+  }
 }
