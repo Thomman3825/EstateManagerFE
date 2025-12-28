@@ -6,25 +6,27 @@ import { useAuth } from '../context/AuthContext';
 
 const Auth = () => {
     const [isLogin, setIsLogin] = useState(true);
+    const [loading, setLoading] = useState(false); // 1. Add loading state
     const [formData, setFormData] = useState({ name: '', email: '', password: '' });
     const navigate = useNavigate();
 
-    const {login} = useAuth();
+    const { login } = useAuth();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true); // 2. Start loading
+
         try {
             const res = isLogin 
                 ? await AuthService.login({ email: formData.email, password: formData.password })
                 : await AuthService.register(formData);
             
-            // Store Token
             login(res.data.token, res.data.user);
-            console.log("Redirecting after login")
-            // Redirect to Estate Selector (Home)
+            console.log("Redirecting after login");
             navigate('/'); 
         } catch (err) {
             alert(err.response?.data?.msg || 'Authentication failed');
+            setLoading(false); // 3. Stop loading only on error (if success, we redirect anyway)
         }
     };
 
@@ -64,12 +66,21 @@ const Auth = () => {
                         required 
                     />
                     
-                    <button type="submit" className={styles.submitBtn}>
-                        {isLogin ? 'Sign In' : 'Sign Up'}
+                    {/* 4. Update Button Logic */}
+                    <button 
+                        type="submit" 
+                        className={styles.submitBtn} 
+                        disabled={loading} // Disable button while loading
+                    >
+                        {loading ? (
+                            <span className={styles.loader}></span> 
+                        ) : (
+                            isLogin ? 'Sign In' : 'Sign Up'
+                        )}
                     </button>
                 </form>
 
-                <p onClick={() => setIsLogin(!isLogin)} className={styles.toggleText}>
+                <p onClick={() => !loading && setIsLogin(!isLogin)} className={styles.toggleText}>
                     {isLogin ? "Don't have an account? Sign Up" : "Already have an account? Login"}
                 </p>
             </div>

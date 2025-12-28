@@ -95,6 +95,32 @@
   text-decoration: underline;
 }
 
+
+.loader {
+  width: 20px;
+  height: 20px;
+  border: 3px solid #ffffff;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Disabled Button State */
+.submitBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  display: flex; /* Centers the loader */
+  justify-content: center;
+  align-items: center;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
