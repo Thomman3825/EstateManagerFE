@@ -14,6 +14,8 @@ export const WorkerService = {
     
     // Pay worker
     pay: (data) => api.post('/workers/pay', data),
+
+    update: (id, data) => api.put(`/workers/${id}`, data),
 };
 
 // Placeholder for future Expense/Sales services
@@ -27,6 +29,18 @@ export const ExpenseService = {
     
     // The "Tracker" Report Call
     getReport: (params) => api.get('/expenses/report', { params }), // params: { estates, from, to }
+
+    update: (id, data) => api.put(`/expenses/update/${id}`, data),
+
+    // 3. Delete Expense
+    delete: (id) => api.delete(`/expenses/${id}`),
+
+    getByEstate: (estateId, startDate, endDate) => {
+        // Send startDate and endDate as query parameters
+        return api.get(`/expenses/estate/${estateId}`, {
+            params: { startDate, endDate }
+        });
+    },
 };
 
 export const SaleService = {
